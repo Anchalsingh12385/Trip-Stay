@@ -5,6 +5,8 @@ const   Listing = require("./models/listing.js");
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const wrapAsync = require("./utils/wrapAsync.js");
+
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
 main().then(() =>{
@@ -51,11 +53,13 @@ app.get("/listings/:id",async (req,res) =>{
 })
 
 //CREATE ROUTE
-app.post("/listings",async(req,res)=>{
+app.post("/listings",wrapAsync(async(req,res,next)=>{
+    
   const newListing=  new Listing (req.body.listing);
     await newListing.save();
     res.redirect("/listings");
-});
+    
+}));
 //EDIT ROUTE
 app.get("/listings/:id/edit", async (req,res) =>{
     let { id } = req.params;
@@ -78,7 +82,7 @@ app.delete("/listings/:id", async (req,res) =>{
 
 
 //TEST ROUTE - Visit http://localhost:8080/testListing once to add sample data
-app.get("/testListing",async(req,res) =>{
+/*app.get("/testListing",async(req,res) =>{
 let sampleListing = new Listing ({
     title: "My New Villa",
     description: "By the beach",
@@ -91,7 +95,12 @@ let sampleListing = new Listing ({
 await sampleListing.save();
 console.log("sample was saved");
 res.send("successful testing");
-});
+});*/
+
+
+app.use((err,req,res,next)=>{
+    res.send("something went wrong");
+})
 
 
 
