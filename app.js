@@ -35,6 +35,17 @@ app.get("/",(req,res) =>{
     res.send("i am robot");
 });
 
+const validateListing = (req,res,next)=>{
+   let (error) =  listingSchema.validate(req.body);
+if(error) {
+    let errMsg = error.details.map((el)=> el.message).join(",");
+
+    throw new ExpressError(400,result.errMsg);
+}  else{
+    next();
+}
+}
+
 //INDEX ROUTE
 
 app.get("/listings", async (req, res) => {
@@ -55,12 +66,8 @@ app.get("/listings/:id",async (req,res) =>{
 })
 
 //CREATE ROUTE
-app.post("/listings",wrapAsync(async(req,res,next)=>{
-let result =  listingSchema.validate(req.body);
-console.log(result);
-if(result.error){
-    throw new ExpressError(400,result.error);
-}
+app.post("/listings",validateListing,wrapAsync(async(req,res,next)=>{
+
   const newListing=  new Listing (req.body.listing);
   
  
@@ -75,7 +82,7 @@ app.get("/listings/:id/edit", async (req,res) =>{
     res.render("listings/edit.ejs",{listing});
 });
 //UPDATE ROUTE
-app.put("/listings/:id", async (req,res) =>{
+app.put("/listings/:id",validateListing, async (req,res) =>{
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing});
    res. redirect(`/listings/${id}`);
