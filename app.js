@@ -8,7 +8,7 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const {listingSchema} = require("./schema.js")
-
+const   Reviews = require("./models/review.js");
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
 main().then(() =>{
@@ -93,7 +93,22 @@ app.delete("/listings/:id", async (req,res) =>{
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);
     res.redirect("/listings");
-})
+});
+//reviews
+//post route
+app.post("/listings/:id/reviews", async (req,res)=>{
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Reviews(req.body.review);
+
+    listing.reviews.push(newReview);
+
+    await newReview.save();
+    await listing.save();
+
+    res.redirect(`/listings/${listing._id}`);
+});
+
+
 
 
 //TEST ROUTE - Visit http://localhost:8080/testListing once to add sample data
