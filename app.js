@@ -75,7 +75,7 @@ app.get("/listings/new",(req,res) =>{
 
 app.get("/listings/:id",async (req,res) =>{
     let {id} = req.params;
-  const listing = await  Listing.findById(id);
+  const listing = await  Listing.findById(id).populate("owner");
   res.render("listings/show.ejs",{listing});
 })
 
@@ -122,6 +122,19 @@ app.post("/listings/:id/reviews",validateReview,wrapAsync( async (req,res)=>{
     res.redirect(`/listings/${listing._id}`);
 }));
 
+//delete review
+app.delete(
+    "/listings/:id/reviews/:reviewsId",
+    wrapAsync(async(req,res)=>{
+        let { id, reviewId} = req.params;
+
+        await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
+         await Review.findByIdAndDelete(reviewId);
+
+         res.redirect(`/listings/${id}`);
+
+    })
+);
 
 
 
@@ -148,9 +161,9 @@ app.use( (req,res,next)=>{
 
 
 app.use((err,req,res,next)=>{
-    let{statusCode,message} = err;
-   res.status(statusCode) .render("error.ejs",{ err});
-  // res.status(statusCode).send(message);
+    let{statusCode =500,message= "something went wrong"} = err;
+  // res.status(statusCode) .render("error.ejs",{ err});
+  res.status(statusCode).send(message);
 });
 
 
