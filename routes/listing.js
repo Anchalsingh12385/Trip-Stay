@@ -35,8 +35,13 @@ router.get("/new",(req,res) =>{
 router.get("/:id",async (req,res) =>{
     let {id} = req.params;
   const listing = await  Listing.findById(id).populate("owner");
+  if(!listing){
+    req.flash("error", "listing you requested for does not exist");
+    res.redirect("/listings");
+  }
   res.render("listings/show.ejs",{listing});
-})
+});
+
 
 //CREATE ROUTE
 router.post("/",validateListing,wrapAsync(async(req,res,next)=>{
@@ -45,6 +50,7 @@ router.post("/",validateListing,wrapAsync(async(req,res,next)=>{
   
  
     await newListing.save();
+    req.flash("success","New Listing Created");
     res.redirect("/listings");
     
 }));
@@ -52,6 +58,10 @@ router.post("/",validateListing,wrapAsync(async(req,res,next)=>{
 router.get("/:id/edit", async (req,res) =>{
     let { id } = req.params;
     const listing = await Listing.findById(id);
+    if(!listing){
+        req.flash("error", "listing you requested for does not exist!");
+        res.redirect("/listings");
+    }
     res.render("listings/edit.ejs",{listing});
 });
 //UPDATE ROUTE

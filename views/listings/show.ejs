@@ -8,21 +8,21 @@
 
   <div class="row mt-3">
     <div class="col-8 offset-2 ">
-      <br><b>
+      <br><br>
         <%= listing.title %>
-      </b> <br>
+      </br> </br>
     </div>
     <div class="col-6 offset-2 listing-card">
       <div class="card listing-card">
         <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing_image">
         <div class="card-body">
-          <p class="card-text">
+          < class="card-text">
             <b class="font-title">
 
             </b>
 
           <p class="card-text">
-            @ <%= listing.owner.username %>
+            @ <%= listing.owner?.username %>
           </p>
           <p class="card-text">
             <%= listing.description %>
@@ -35,7 +35,7 @@
           <p class="card-text">
             <%= listing.country %>
           </p>
-          </p>
+          
         </div>
       </div>
       <% if (currUser && listing.owner._id.equals(currUser._id)) { %>
@@ -97,7 +97,7 @@
                   <div class="card col-5 mb-3 ms-3 ">
                     <div class="card-body">
                       <h5 class="card-title">
-                        @<%= review.author.username %>
+                        @<%= review.author?.username %>
                       </h5>
                       
 
@@ -105,7 +105,7 @@
 
                       </p>
                       <p class="card-text">
-                        <%= review.Comment %>
+                        <%= review.comment %>
                           </p>
                     </div>
                     <% if (currUser) { %>

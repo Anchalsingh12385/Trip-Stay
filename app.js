@@ -6,7 +6,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
 const ExpressError = require("./utils/ExpressError.js");
-
+const flash = require("connect-flash");
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/reviews.js");
 
@@ -35,15 +35,26 @@ const sessionOptions = {
     secret: "mysupersecretcode",
     resave: false,
     saveUninitialized : true,
-}
+    cookie: {
+        expires:Date.now() + 1000 * 7 *24 *60 * 60 ,
+         maxAge: 1000 * 7 *24 *60 * 60 ,
+         httpOnly: true
+    },
+    };
+
+    app.get("/",(req,res)=>{
+        res.send("Hi, i am root");
+    });
+
 app.use(session(sessionOptions));
+app.use(flash());
 
+app.use((req,res,next)=>{
+res.locals.success = req.flash("success");
+res.locals.error = req.flash("error");
 
-app.get("/",(req,res) =>{
-    res.send("i am robot");
+next();
 });
-
-
 
 
 
@@ -62,6 +73,11 @@ app.use((err,req,res,next)=>{
     let{statusCode =500,message= "something went wrong"} = err;
   // res.status(statusCode) .render("error.ejs",{ err});
   res.status(statusCode).send(message);
+});
+
+app.use((req,res,next)=>{
+    res.locals.currUser = req.user;
+    next();
 });
 
 
