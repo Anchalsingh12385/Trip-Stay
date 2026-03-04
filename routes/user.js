@@ -28,14 +28,23 @@ router.get("/login",async(req,res)=>{
 
 router.post(
     "/login",
-    passport.authentication("local",{
+    passport.authenticate("local",{
         failureRedirect:"/login",
         failureFlash : true,
     }),
     async(req,res)=>{
      res.flash("welcome to Trip-Stay! You are logged in!");
-     res.redirect("/listings");
+     res.redirect("/login");
     }
 );
+router.get("/logout",(req,res,next)=>{
+    req.logout((err)=>{
+        if(err){
+            return next(err);
+        }
+        req.flash("succces","you are logged out!");
+        res.redirect("/listings");
+    });
+});
 
 module.exports = router;
