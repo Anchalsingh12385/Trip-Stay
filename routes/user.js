@@ -10,7 +10,7 @@ router.get("/signup",(req,res)=>{
     res.render("users/signup.ejs");
 });
 
-router.post("/signup",wrapAsync(async(req,res)=>{
+router.post("/signup",wrapAsync(async(req,res,next)=>{
     try{
     let {username,email,password} = req.body;
     const newUser = new User({email,username});
@@ -36,13 +36,13 @@ router.get("/login",async(req,res)=>{
 
 router.post(
     "/login",
-    saveRedirectUrl,
+    
     passport.authenticate("local",{
         failureRedirect:"/login",
         failureFlash : true,
     }),
     async(req,res)=>{
-     res.flash( "success","welcome to Trip-Stay! You are logged in!");
+     req.flash( "success","welcome to Trip-Stay! You are logged in!");
      let redirectUrl = res.locals.redirectUrl || "/listings";
      res.redirect(redirectUrl);
     }
@@ -52,7 +52,7 @@ router.get("/logout",(req,res,next)=>{
         if(err){
             return next(err);
         }
-        req.flash("succes","you are logged out!");
+        req.flash("success","you are logged out!");
         res.redirect("/listings");
     });
 });
