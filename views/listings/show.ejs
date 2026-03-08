@@ -102,11 +102,8 @@
                       <h5 class="card-title">
                         @<%= review.author?.username %>
                       </h5>
-                      
-
-                      <p class="starability-result card-text" data-rating=<%=review.rating %>>
-
-                      </p>
+                        
+                        <p class="starability-result" data-rating="<%=review.rating%>">Rated: 3 stars</p> 
                       <p class="card-text">
                         <%= review.comment %>
                           </p>

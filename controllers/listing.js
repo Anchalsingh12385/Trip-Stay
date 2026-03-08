@@ -1,6 +1,6 @@
 const Listing = require("../models/listing");
 
-module.exports.Index = async (req, res) => {
+module.exports.index = async (req, res) => {
   const allListings = await Listing.find({});
   res.render("listings/index", {  allListings });
 };
@@ -38,7 +38,7 @@ module.exports.createListing = async(req,res,next)=>{
     
 };
 module.exports.renderEditForm = async (req,res) =>{
-    let { id } = req.params;
+    const { id } = req.params;
     const listing = await Listing.findById(id);
     if(!listing){
         req.flash("error", "listing you requested for does not exist!");
@@ -47,7 +47,7 @@ module.exports.renderEditForm = async (req,res) =>{
     res.render("listings/edit.ejs",{listing});
 };
 module.exports.updateListing = async (req,res) =>{
-    let { id } = req.params;
+    const { id } = req.params;
 
     await Listing.findByIdAndUpdate(id, { ...req.body.listing});
     req.flash("success", "Listing Updated");
