@@ -40,7 +40,8 @@
       </div>
 
       <br/>
-      <% if (currUser && currUser._id.equals(listing.owner._id)) { %>
+      <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
+      
         <div class="btns">
           <!-- Edit Button -->
           <a href="/listings/<%= listing._id %>/edit">
@@ -53,10 +54,9 @@
           </form>
         </div>
         <% } %>
-
-    </div>
+    
     <div class="col-8 offset-2 mt-3 mb-3">
-      <hr>
+      <hr />
       <% if (currUser) { %>
 
         <h3>Leave a Review</h3>
@@ -86,10 +86,11 @@
         <button class="btn btn-outline-danger mt-3">Submit</button>
 
         </form>
-
-        <hr>
+      <hr/>
+        
         <% } %>
-          <% if(listing.reviews.length>0) { %>
+        
+                  <% if(listing.reviews.length>0) { %>
             <h4>All Reviews</h4>
             <% } %>
 
