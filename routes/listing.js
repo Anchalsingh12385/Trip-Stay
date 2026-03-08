@@ -10,7 +10,7 @@ const listingController = require("../controllers/listing.js");
 
 //INDEX ROUTE
 
-router.get("/",wrapAsync(listingController.index));
+router.get("/",wrapAsync(listingController.Index));
 
 ///NEW ROUTE
 router.get("/new",isLoggedIn, listingController.renderNewForm);
