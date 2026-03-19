@@ -13,7 +13,10 @@ const listingSchema = new Schema({
      filename:String,
     },
     price : Number,
-    location: String,
+    location: {
+  type: String,
+  required: true,
+},
     country: String,
     reviews: [
       {
