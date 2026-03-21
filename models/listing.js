@@ -28,10 +28,7 @@ const listingSchema = new Schema({
       type:mongoose.Schema.Types.ObjectId,
       ref: "User"
     },
-    category:{
-      type:String,
-      enum:["mountains","arctic","farms","deserts" ]
-    }
+    category: { type: String, enum: ["mountains","arctic","farms","deserts","beaches","cities"] }
 });
  
 listingSchema.post("findOneDelete",async (listing)=>{

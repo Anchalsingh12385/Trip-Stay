@@ -56,8 +56,13 @@
                         
                     <div class="mt-3">
                         <label for="Category" class="form-label">Category</label>
-                        <input type="text" name="listing[category]" placeholder="Enter the Category" class="form-control"
-                            required>
+                        <select name="listing[category]" class="form-select" required>
+                          <option value="" disabled selected>Select a category</option>
+                            <option value="mountains">Mountains</option>
+                                   <option value="arctic">Arctic</option>
+                                     <option value="farms">Farms</option>
+                                   <option value="deserts">Deserts</option>
+                                  </select>
                         <div class="invalid-feedback">Category should be valid</div>
 
                     </div>
