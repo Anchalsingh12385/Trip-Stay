@@ -1,4 +1,4 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
 module.exports.listingSchema = Joi.object({
   listing: Joi.object({
@@ -7,12 +7,12 @@ module.exports.listingSchema = Joi.object({
     location: Joi.string().required(),
     country: Joi.string().required(),
     price: Joi.number().required().min(0),
-    
-    image: Joi.object({
-      url: Joi.string().allow(""),
-      filename: Joi.string().allow("")
-    }).optional()
-  }).required(),
-  category: Joi.string().valid("mountains","arctic","farms","deserts","beaches","cities").required(),
 
+    category: Joi.string()
+      .valid("mountains","arctic","farms","deserts","beaches","cities")
+      .required(),
+
+    image: Joi.any() // simplest fix
+    .optional()
+  }).required()
 });
