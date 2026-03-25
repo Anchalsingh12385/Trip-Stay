@@ -8,10 +8,10 @@ const listingSchema = new Schema({
         required: true,
     },
     description: String,
-    image: {
-     url: String,
-     filename:String,
-    },
+   image: {
+  url: String,
+  filename:String,
+},
     price : Number,
     location: {
   type: String,
@@ -31,7 +31,7 @@ const listingSchema = new Schema({
     category: { type: String, enum: ["mountains","arctic","farms","deserts","beaches","cities"] }
 });
  
-listingSchema.post("findOneDelete",async (listing)=>{
+listingSchema.post("findOneAndDelete", async (listing) => {
   if(listing){
     await Review.deleteMany({_id: { $in: listing.reviews}});
 
