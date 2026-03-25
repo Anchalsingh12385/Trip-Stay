@@ -11,7 +11,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'Trip-Stay',
-    allowedFormat: ["png","jpg","jpeg"],
+    allowedFormats: ["png","jpg","jpeg"],
    
   },
 });

@@ -11,13 +11,15 @@ module.exports.isLoggedIn = (req,res,next)=>{
     }
     next();
 }
-
-module.exports.savedRedirectUrl = (req,res,next)=>{
-    if(req.session.redirectUrl) {
-        res.locals.redirectUrl = req.session.RedirectUrl;
+// middlewares.js
+module.exports.saveRedirectUrl = (req,res,next)=>{
+    if(req.session.redirectUrl){
+        res.locals.redirectUrl = req.session.redirectUrl;
     }
     next();
 };
+
+
 
 module.exports.isOwner = async (req,res,next) =>{
       let { id } = req.params;
