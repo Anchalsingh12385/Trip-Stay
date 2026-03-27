@@ -9,6 +9,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const ExpressError = require("./utils/ExpressError.js");
 const flash = require("connect-flash");
 const listingRouter = require("./routes/listing.js");
@@ -20,7 +21,7 @@ const User = require("./models/user.js");
 
 
 //const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/tripStay";
+const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/tripstay";
 
 main().then(() =>{
     console.log("connected to DB");
@@ -41,7 +42,13 @@ app.use(methodOverride("_method"));
 app.engine('ejs',ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
 
+const store = MongoStore.create({
+  mongoUrl: "mongodb://127.0.0.1:27017/tripstay",
+  touchAfter: 24 * 3600,
+});
+
 const sessionOptions = {
+    store,
     secret: "mysupersecretcode",
     resave: false,
     saveUninitialized : true,
@@ -52,6 +59,7 @@ const sessionOptions = {
     },
     };
 
+  
     //app.get("/",(req,res)=>{
       //  res.send("Hi, i am root");
    // });
