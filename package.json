@@ -1,4 +1,9 @@
 {
+  "engines": {
+    "node": "24.13.0"
+  },
+
+
   "name": "trip-stay",
   "version": "1.0.0",
   "description": "",
