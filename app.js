@@ -111,10 +111,7 @@ app.use((err,req,res,next)=>{
   res.status(statusCode).send(message);
 });
 
-app.use((req,res,next)=>{
-    res.locals.currUser = req.user;
-    next();
-});
+
 
 
 
