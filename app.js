@@ -23,6 +23,14 @@ const User = require("./models/user.js");
 //const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/tripstay";
 
+console.log("--- Environment Variable Check ---");
+if (!process.env.ATLASDB_URL) {
+    console.log("❌ WARNING: ATLASDB_URL is NOT set or is empty in the environment variables!");
+    console.log("⚠️ Fallback: Server will try connecting to local database -> " + dbUrl);
+} else {
+    console.log("✅ SUCCESS: ATLASDB_URL found in environment variables!");
+}
+console.log("----------------------------------");
 main().then(() =>{
     console.log("connected to DB");
 
