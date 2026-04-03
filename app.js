@@ -43,13 +43,13 @@ app.engine('ejs',ejsMate);
 app.use(express.static(path.join(__dirname,"/public")));
 
 const store = MongoStore.create({
-  mongoUrl: process.env.ATLASDB_URL ,
+  mongoUrl: dbUrl,
   touchAfter: 24 * 3600,
 });
 
 const sessionOptions = {
     store,
-    secret: process.env.SECRET ,
+    secret: process.env.SECRET || "fallbacksecret",
     resave: false,
     saveUninitialized : true,
     cookie: {
@@ -115,6 +115,7 @@ app.use((err,req,res,next)=>{
 
 
 
-app.listen(8080,() =>{
-    console.log("server is listening to port 8080");
+const port = process.env.PORT || 8080;
+app.listen(port,() =>{
+    console.log(`server is listening to port ${port}`);
 });
